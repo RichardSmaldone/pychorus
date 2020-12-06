@@ -122,6 +122,20 @@ def create_chroma(input_file, n_fft=N_FFT):
 
     return chroma, y, sr, song_length_sec
 
+def create_chroma_nparray(input_array, input_sr, n_fft=N_FFT):
+    """
+    Generate the notes present in a song
+    Just adding a small tweak to accept a numpy array instead of a wav file
+
+    Returns: tuple of 12 x n chroma, song wav data, sample rate (usually 22050)
+             and the song length in seconds
+    """
+    y, = input_array,  sr = input_sr
+    song_length_sec = y.shape[0] / float(sr)
+    S = np.abs(librosa.stft(y, n_fft=n_fft))**2
+    chroma = librosa.feature.chroma_stft(S=S, sr=sr)
+
+    return chroma, y, sr, song_length_sec
 
 def find_chorus(chroma, sr, song_length_sec, clip_length):
     """
@@ -164,7 +178,8 @@ def find_chorus(chroma, sr, song_length_sec, clip_length):
 def find_and_output_chorus(input_file, output_file, clip_length=15):
     """
     Finds the most repeated chorus from input_file and outputs to output file.
-
+    Just adding a small tweak to accept a numpy array instead of a wav file.
+    
     Args:
         input_file: string specifying the input file
         output_file: string where to write the chorus (wav only)
@@ -177,6 +192,25 @@ def find_and_output_chorus(input_file, output_file, clip_length=15):
     chorus_start = find_chorus(chroma, sr, song_length_sec, clip_length)
     if chorus_start is None:
         return
+    
+
+def find_and_output_chorus_nparray(input_array, output_file, clip_length=15):
+    """
+    Finds the most repeated chorus from input_file and outputs to output file.
+
+    Args:
+        input_array: string specifying the input numpy array
+        output_file: string where to write the chorus (wav only)
+            None means don't write anything
+        clip_length: minimum length in seconds of the chorus
+
+    Returns: Time in seconds of the start of the best chorus
+    """
+    chroma, song_wav_data, sr, song_length_sec = create_chroma(input_file)
+    chorus_start = find_chorus(chroma, sr, song_length_sec, clip_length)
+    if chorus_start is None:
+        return    
+    
 
     print("Best chorus found at {0:g} min {1:.2f} sec".format(
         chorus_start // 60, chorus_start % 60))
