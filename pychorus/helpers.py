@@ -208,7 +208,7 @@ def find_and_output_chorus_nparray(input_array, input_sr, output_file, clip_leng
 
     Returns: Time in seconds of the start of the best chorus
     """
-    chroma, song_wav_data, sr, song_length_sec = create_chroma(input_file)
+    chroma, song_wav_data, sr, song_length_sec = create_chroma(input_file,input_sr)
     chorus_start = find_chorus(chroma, sr, song_length_sec, clip_length)
     if chorus_start is None:
         return    
