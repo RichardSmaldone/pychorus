@@ -128,7 +128,8 @@ def create_chroma_nparray(input_array, input_sr, n_fft=N_FFT):
     Returns: tuple of 12 x n chroma, song wav data, sample rate (usually 22050)
              and the song length in seconds
     """
-    y, = input_array,  sr = input_sr
+    y = input_array
+    sr = input_sr
     song_length_sec = y.shape[0] / float(sr)
     S = np.abs(librosa.stft(y, n_fft=n_fft))**2
     chroma = librosa.feature.chroma_stft(S=S, sr=sr)
