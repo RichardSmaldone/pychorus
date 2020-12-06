@@ -2,7 +2,7 @@ from __future__ import division
 
 import argparse
 
-from pychorus.helpers import find_and_output_chorus
+from pychorus.helpers import find_and_output_chorus, find_and_output_chorus_nparray
 
 
 def main(args):
