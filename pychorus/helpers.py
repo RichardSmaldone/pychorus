@@ -196,7 +196,7 @@ def find_and_output_chorus(input_file, output_file, clip_length=15):
     print("Best chorus found at {0:g} min {1:.2f} sec".format(
     chorus_start // 60, chorus_start % 60))
 
-def find_and_output_chorus_nparray(input_array, output_file, clip_length=15):
+def find_and_output_chorus_nparray(input_array, input_sr, output_file, clip_length=15):
     """
     Finds the most repeated chorus from input_file and outputs to output file.
 
