@@ -111,7 +111,6 @@ def draw_lines(num_samples, sample_rate, lines):
 def create_chroma(input_file, n_fft=N_FFT):
     """
     Generate the notes present in a song
-
     Returns: tuple of 12 x n chroma, song wav data, sample rate (usually 22050)
              and the song length in seconds
     """
@@ -126,7 +125,6 @@ def create_chroma_nparray(input_array, input_sr, n_fft=N_FFT):
     """
     Generate the notes present in a song
     Just adding a small tweak to accept a numpy array instead of a wav file
-
     Returns: tuple of 12 x n chroma, song wav data, sample rate (usually 22050)
              and the song length in seconds
     """
@@ -140,13 +138,11 @@ def create_chroma_nparray(input_array, input_sr, n_fft=N_FFT):
 def find_chorus(chroma, sr, song_length_sec, clip_length):
     """
     Find the most repeated chorus
-
     Args:
         chroma: 12 x n frequency chromogram
         sr: sample rate of the song, usually 22050
         song_length_sec: length in seconds of the song (lost in processing chroma)
         clip_length: minimum length in seconds we want our chorus to be (at least 10-15s)
-
     Returns: Time in seconds of the start of the best chorus
     """
     num_samples = chroma.shape[1]
@@ -185,7 +181,6 @@ def find_and_output_chorus(input_file, output_file, clip_length=15):
         output_file: string where to write the chorus (wav only)
             None means don't write anything
         clip_length: minimum length in seconds of the chorus
-
     Returns: Time in seconds of the start of the best chorus
     """
     chroma, song_wav_data, sr, song_length_sec = create_chroma(input_file)
@@ -199,16 +194,14 @@ def find_and_output_chorus(input_file, output_file, clip_length=15):
 def find_and_output_chorus_nparray(input_array, input_sr, output_file, clip_length=15):
     """
     Finds the most repeated chorus from input_file and outputs to output file.
-
     Args:
         input_array: string specifying the input numpy array
         output_file: string where to write the chorus (wav only)
             None means don't write anything
         clip_length: minimum length in seconds of the chorus
-
     Returns: Time in seconds of the start of the best chorus
     """
-    chroma, song_wav_data, sr, song_length_sec = create_chroma(input_file,input_sr)
+    chroma, song_wav_data, sr, song_length_sec = create_chroma_nparray(input_array,input_sr)
     chorus_start = find_chorus(chroma, sr, song_length_sec, clip_length)
     if chorus_start is None:
         return    
